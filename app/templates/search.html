@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block head %} <title>Search Result of {{ searched }}</title> {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="section-title">
+        <h4 class="m-0 text-uppercase font-weight-bold">You searched for: {{ searched }}</h4>
+    </div>
+    {% for post in posts %}
+        <div class="d-flex align-items-center bg-white mb-2" style="height: 160px;">
+            <a href="/post/{{ post.id }}/{{ post.slug }}" ><img class="img-fluid" src="{{ url_for('static', filename='img/' + post.image_file) }}" alt="" style="height: 160px; width: 240px;"></a>
+            <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center  border-left-0">
+                <div class="">
+                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-1" href="{{ url_for('category_post', category=post.category) }}">{{ post.category }}</a>
+                </div>
+                <a class="h6 m-0 text-secondary text-uppercase text-decoration-none my-1" href="/post/{{ post.id }}/{{ post.slug }}">{{ post.title | safe }}</a>
+                <a href="/post/{{ post.id }}/{{ post.slug }}">
+                    <p class="mt-1" style="font-family:sans-serif; line-height: 1; color: black;font-size: 14px;">
+                        Dolor lorem eos dolor duo et eirmod sea. Dolor sit magna
+
+                    </p>
+                </a>
+                <div >
+                    <small><i class="mr-1 fa fa-clock " ></i>{{ post.date_posted.strftime('%B-%d-%Y') }}</small>
+
+                    <a class="text-body ml-2" href="{{ url_for('user_post', username=post.author.username) }}"><small> <i class=" fa fa-user  mr-2" ></i>{{post.author.username}}</small></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

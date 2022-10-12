@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/icon-48x48.png') }}" />
+
+	<title>Dashboard</title>
+
+    <link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="index.html">
+					<span class="align-middle">Admin Dashboard</span>
+				</a>
+
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Pages
+					</li>
+
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="{{ url_for('home') }}">
+							<i class="align-middle" data-feather="home"></i> <span
+								class="align-middle">Home</span>
+						</a>
+					</li>
+                    <li class="sidebar-item">
+						<a class="sidebar-link" href="{{ url_for('dashboard') }}">
+							<i class="align-middle" data-feather="sliders"></i> <span
+								class="align-middle">Dashboard</span>
+						</a>
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ url_for('account') }}">
+							<i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ url_for('create_admin') }}">
+							<i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Create Admin</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ url_for('new_post') }}">
+							<i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Create Post</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ url_for('table') }}">
+							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Users Table</span>
+						</a>
+					</li>
+
+                    <li class="sidebar-item">
+						<a class="sidebar-link" href="/admin/user">
+							<i class="align-middle" data-feather="book"></i> <span class="align-middle">Edith Users</span>
+						</a>
+					</li>
+
+{#					<li class="sidebar-header">#}
+{#						Tools & Components#}
+{#					</li>#}
+{##}
+{##}
+{#					<li class="sidebar-item">#}
+{#						<a class="sidebar-link" href="#">#}
+{#							<i class="align-middle" data-feather="check-square"></i> <span#}
+{#								class="align-middle">Forms</span>#}
+{#						</a>#}
+{#					</li>#}
+{##}
+{#					<li class="sidebar-item">#}
+{#						<a class="sidebar-link" href="#">#}
+{#							<i class="align-middle" data-feather="grid"></i> <span class="align-middle">Cards</span>#}
+{#						</a>#}
+{#					</li>#}
+
+
+				</ul>
+			</div>
+		</nav>
+
+		<div class="main">
+
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle js-sidebar-toggle">
+					<i class="hamburger align-self-center"></i>
+				</a>
+
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+								data-bs-toggle="dropdown">
+								<img src="{{ image_file }}" class="avatar img-fluid rounded me-1"
+									alt="{{current_user.username}}" /> <span class="text-dark">{{current_user.username}}</span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end">
+								<a class="dropdown-item" href="{{ url_for('account') }}"><i class="align-middle me-1"
+										data-feather="user"></i> Profile</a>
+
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{{ url_for('logout') }}">Log out</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+            <!-- block section Start-->
+
+            {% block body %}
+
+            {% endblock %}
+
+
+            <!-- block Section End-->
+			<main class="content">
+				<div class="container-fluid p-0">
+
+					<h1 class="h3 mb-3 text-center">Welcome To KorrectNaija <strong> Dashboard</strong></h1>
+
+
+				</div>
+			</main>
+
+		</div>
+
+
+
+	</div>
+
+			<script src="static/app.js"></script>
+</body>
+
+
+</html>

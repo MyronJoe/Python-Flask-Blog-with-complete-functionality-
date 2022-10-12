@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+{% block head %} <title>{{ post.category }}</title> {% endblock %}
+
+{% block body %}
+
+
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid mt-5 pt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title">
+                                <h4 class="m-0 text-uppercase font-weight-bold">{{ post.category }}</h4>
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                           
+
+
+
+                            {% for post in posts.items %}
+
+                                <div class="d-flex align-items-center bg-white mb-2" style="height: 160px;">
+                                    <a href="/post/{{ post.id }}/{{ post.slug }}" ><img class="img-fluid" src="{{ url_for('static', filename='img/' + post.image_file) }}" alt="" style="height: 160px; width: 240px;"></a>
+                                    <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center  border-left-0">
+                                        <div class="">
+                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-1" href="{{ url_for('category_post', category=post.category) }}">{{ post.category }}</a>
+                                        </div>
+                                        <a class="h6 m-0 text-secondary text-uppercase text-decoration-none my-1" href="/post/{{ post.id }}/{{ post.slug }}">{{ post.title | safe }}</a>
+                                        <a href="/post/{{ post.id }}/{{ post.slug }}">
+                                            <p class="mt-1" style="font-family:sans-serif; line-height: 1; color: black;font-size: 14px;">
+                                                Dolor lorem eos dolor duo et eirmod sea. Dolor sit magna
+
+                                            </p>
+                                        </a>
+                                        <div >
+                                            <small><i class="mr-1 fa fa-clock " ></i>{{ post.date_posted.strftime('%B-%d-%Y') }}</small>
+
+                                            <a class="text-body ml-2" href="{{ url_for('user_post', username=post.author.username) }}"><small> <i class=" fa fa-user  mr-2" ></i>{{post.author.username}}</small></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                            <div class="text-center">
+
+                                {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                                    {% if page_num %}
+                                        {% if posts.page == page_num %}
+                                        <a class="btn btn-info my-3 mx-1" href="{{ url_for('category_post', category=post.category, page=page_num) }}"> {{ page_num }} </a>
+                                        {% else %}
+                                            <a class="btn btn-outline-info my-3 mx-1" href="{{ url_for('category_post', category=post.category, page=page_num) }}"> {{ page_num }} </a>
+                                        {% endif %}
+                                    {% else %}
+
+                                    {% endif %}
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+                        
+                        
+                       
+                    </div>
+                </div>
+                
+               <div class="col-lg-4">
+                    <!-- right Start -->
+                    {% include 'right.html' %}
+                    {% block content %}{% endblock %}
+                    <!-- right End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+
+{% endblock %}

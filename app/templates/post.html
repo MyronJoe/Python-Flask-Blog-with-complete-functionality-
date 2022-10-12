@@ -1,0 +1,173 @@
+{% extends 'layout.html' %}
+
+{% block head %} <title>{{ post.title }}</title> {% endblock %}
+
+
+{% block body %}
+
+
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="bg-light mb-0 py-3 mb-0" style="border-left: 5px solid #1D2D73; padding-left: 18px; border-bottom: 1px solid rgb(228, 225, 225);">
+                        <h4 class="m-0 text-uppercase font-weight-bold">{{ post.category }}</h4>
+                    </div>
+                    <div class="bg-light mb-0">
+                        <h2 class="mb-3 pt-3 px-4 text-secondary text-uppercase font-weight-bold">{{ post.title | safe }}...</h2>
+                        <hr>
+                        <div class="text-dark px-3 pb-3">
+                            <div style="display: flex; justify-content: space-between;">
+
+                                    <div class="date-user ml-2">
+                                        <div class="mt-1">
+                                            <a class="mr-3"  href="{{ url_for('user_post', username=post.author.username) }}"><small  style="color: gray; font-size: 13px;">By: <i class=" fa fa-user mr-2" ></i><span >{{post.author.username}}</span></small></a>
+                                        </div>
+                                    
+                                        <div class="mt-1">
+                                            <small style="color: gray; font-size: 13px;"><i class=" fa fa-calendar mr-2" ></i>{{post.date_posted.strftime('%B-%d-%Y | %H : %M : %p')}}</small>
+                                        </div>
+                                    </div>
+                                
+                               
+
+                                    <div class="d-flex">
+                                        <div class="mr-1">
+                                            <a href="" class="text-white text-decoration-none ">
+                                                <i class="fab fa-facebook-f text-center rounded-circle" style="width: 35px;height: 35px; background:#39569E;padding-top: 10px;"></i>
+                                            </a>
+                                        </div>
+                                        <div class="mr-1">
+                                            <a href="" class="text-white text-decoration-none ">
+                                                <i class="fab fa-twitter text-center rounded-circle" style="width: 35px;height: 35px; background:#52AAF4;padding-top: 10px;"></i>
+                                            </a>
+                                        </div>
+                                        <div class="mr-1">
+                                            <a href="" class="text-white text-decoration-none ">
+                                                <i class="fab fa-instagram text-center rounded-circle" style="width: 35px;height: 35px; background:#C8359D;padding-top: 10px;"></i>
+                                            </a>
+                                        </div>
+                                        <div class="">
+                                            <a href="" class="text-white text-decoration-none ">
+                                                <i class="fab fa-whatsapp text-center rounded-circle" style="width: 35px;height: 35px; background:#37e06a;padding-top: 10px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                            
+                        </div>
+                       
+                        
+                    </div>
+                    
+                    
+                    <!-- News Detail Start -->
+                    <div class="position-relative mb-3">
+                        <img class="img-fluid w-100" src="{{ url_for('static', filename='img/' + post.image_file) }}" style="object-fit: cover;">
+                        <div class="bg-white border border-top-0 p-4">
+                            <div class="mb-3">
+                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                    href="">{{ post.category }}</a>
+                                    <span class="ml-3"><i class="far fa-eye mr-2"></i>{{ post.views }} Views</span>
+                                    <a  href="/post/{{ post.id }}/{{ post.slug }}/comments">   <span class="ml-3"><i class="far fa-comment mr-2"></i>{{ post.comments }} Comments</span></a>
+                                
+                            </div>
+                            <div style="font-family: 'Myriad Pro'; line-height: 1.3; color: black; text-align: justify; word-spacing: 2px">{{ post.content | safe }}</div>
+                        </div>
+                    </div>
+                    <!-- News Detail End -->
+
+
+                    {% if current_user.is_admin == True %}
+                        <div style="margin-top: 1em; margin-bottom: 1em">
+                            <a class="btn btn-info btn-sm mb-1" href="{{ url_for('update_post', post_id=post.id) }}">Update</a>
+                            <button type="button" class="btn btn-danger mb-1 btn-sm" data-toggle="modal" data-target="#deleteModalCenter">Delete</button>
+                        </div>
+                    {% endif %}
+
+
+                    <!-- Comment List Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Comments</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-4">
+
+                                {% for comment in comments[:3] %}
+                                    <div class="media mb-4">
+                                        <div class="media-body" style="background: #ecede9">
+                                            <h6 class="font-weight-bold" style="background:#0d104d; padding: .5em; color: white">{{ comment.name }} |<small> <i>{{comment.date_posted.strftime('%B-%d-%Y')}}</i></small></h6>
+                                            <div style="font-family: 'Myriad Pro'; line-height: 1.3; color: black; text-align: justify; word-spacing: 2px; padding: .5em;">{{ comment.message }}</div>
+        {#                                 <button class="btn btn-sm btn-outline-secondary" style="margin: .5em;">Reply</button>#}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                        </div>
+                    </div>
+                    <!-- Comment List End -->
+
+                    <!-- Comment Form Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Leave a comment</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-4">
+                            <form method="POST">
+                                <div class="form-row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="name">Name *</label>
+                                            <input type="text" class="form-control" id="name" name="name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Comment *</label>
+                                    <textarea id="message" cols="30" rows="5" name="message" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="submit" value="Leave a comment"
+                                        class="btn btn-primary font-weight-semi-bold py-2 px-3 text-light">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Comment Form End -->
+                </div>
+                
+                <div class="col-lg-4">
+                    <!-- right Start -->
+                    {% include 'right.html' %}
+                    {% block content %}{% endblock %}
+                    <!-- right End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLongTitle">Do You want to delete this post?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary text-light" data-dismiss="modal">Cancel</button>
+          <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+              <input type="submit" class="btn btn-danger text-light" value="Yes">
+          </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block head %} <title>{{ current_user.username }}</title> {% endblock %}
+
+{% block body %}
+    <div class="container border my-5 bg-light px-3 pb-4">
+            <legend class="text-secondary mx-2 my-3">User Account</legend>
+
+
+                <div class="border d-flex align-items-center bg-white mb-2" style="height: 100px;">
+                    <img class="img-fluid" src="{{ image_file }}" alt="{{ current_user.username }}" style="width: 110px; height: 100px;">
+                    <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border-left-0">
+                        <h2 class="h2 m-0 text-secondary mb-2">{{ current_user.username }}</h2>
+                        <p>{{ current_user.email }}</p>
+                    </div>
+                </div>
+
+{#     FORM SECTION#}
+
+        <form method="POST" action="" novalidate class="py-2 px-3 border" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="text-secondary my-3">Update Account</legend>
+
+                <div class="form-group">
+                    {{ form.username.label(class='form-control-label') }}
+                    {% if form.username.errors %}
+                        {{ form.username(class='form-control form-control-lg is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                         {{ form.username(class='form-control form-control-lg') }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label(class='form-control-label') }}
+                    {% if form.email.errors %}
+                        {{ form.email(class='form-control form-control-lg is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                         {{ form.email(class='form-control form-control-lg') }}
+                    {% endif %}
+                </div>
+
+                 <div class="form-group">
+                    {{ form.picture.label() }}
+                    <div class="mt-1 bg-light border p-2">
+                        {{ form.picture(class='form-control-file btn btn-info') }}
+                    </div>
+                    {% if form.picture.errors %}
+                            {% for error in form.picture.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                    {% endif %}
+                </div>
+
+            </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class='btn btn-outline-info') }}
+                </div>
+        </form>
+
+    </div>
+{% endblock %}

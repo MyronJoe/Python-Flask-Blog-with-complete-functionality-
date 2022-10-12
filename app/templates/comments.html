@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block head %} <title>{{ legend }}</title> {% endblock %}
+
+{% block body %}
+
+
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid mt-5 pt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+
+                        <div class="col-lg-12">
+                           
+
+                 <!-- Comment List Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">{{ post.comments }} Comments</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-4">
+
+                                {% for comment in comments %}
+                                    <div class="media mb-4">
+                                        <div class="media-body" style="background: #ecede9">
+                                            <h6 class="font-weight-bold" style="background:#0d104d; padding: .5em; color: white">{{ comment.name }} |<small> <i>{{comment.date_posted.strftime('%B-%d-%Y')}}</i></small></h6>
+                                            <div style="font-family: 'Myriad Pro'; line-height: 1.3; color: black; text-align: justify; word-spacing: 2px; padding: .5em;">{{ comment.message }}</div>
+        {#                                 <button class="btn btn-sm btn-outline-secondary" style="margin: .5em;">Reply</button>#}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                        </div>
+                    </div>
+                <!-- Comment List End -->
+
+
+
+                        </div>
+                        
+                        
+                       
+                    </div>
+                </div>
+                
+               <div class="col-lg-4">
+                    <!-- right Start -->
+                    {% include 'right.html' %}
+                    {% block content %}{% endblock %}
+                    <!-- right End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+
+{% endblock %}
